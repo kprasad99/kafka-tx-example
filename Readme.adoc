@@ -1,0 +1,29 @@
+
+# How to run
+
+- Start kafka 3 node cluster using docker-compose
++
+----
+$ docker-compose up -d
+----
+
+- Download go packages and run the app.
++
+----
+$ go mod tidy
+$ go run main.go
+----
+
+- Now listen for the topic
++
+-----
+$ docker exec -it kafka-1 kafka-console-consumer --bootstrap-server localhost:9092 --topic kp.go.tx.topic --from-beginning
+-----
++
+NOTE: Listen for the topic once app is started as we create topics with 5 partiion and replication factor to 2.
+
+- Now Push the message to kafka using curl command
++
+----
+$ curl --location --request GET 'http://localhost:8080/send?key=0&data=hello%20from%20kp%20data&repeat=5000'
+----
